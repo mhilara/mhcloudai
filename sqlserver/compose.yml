@@ -1,0 +1,28 @@
+services:
+  sqlserver:
+    image: mcr.microsoft.com/mssql/server:2022-latest
+    container_name: mssqlserver
+    restart: always
+    user: root
+    environment:
+      ACCEPT_EULA: "Y"
+      MSSQL_SA_PASSWORD: ${MSSQL_SA_PASSWORD}
+      MSSQL_PID: "Developer"
+      MSSQL_COLLATION: "SQL_Latin1_General_CP1_CI_AS"
+      MSSQL_AGENT_ENABLED: "true"
+    ports:
+      - "1433:1433"
+    volumes:
+      - ./data:/var/opt/mssql/data
+      - ./backups:/var/opt/mssql/backup
+      - ./logs:/var/opt/mssql/log
+    deploy:
+      resources:
+        limits:
+          memory: 8g
+          cpus: '4.0'
+
+volumes:
+  data:
+  backups:
+  logs:
